@@ -55,7 +55,6 @@ void MainWindow::on_pushButton_send_clicked()
     Message msg(ui->lineEdit_message->text().toStdString().c_str(), std::chrono::system_clock::now(), name.toStdString().c_str());
     server.sendToAddress(recipientIpAdress.toStdString(), recPort, msg);
     ui->lineEdit_message->clear();
-    //std::this_thread::sleep_for(std::chrono::microseconds(100));
 }
 
 void MainWindow::updateChat()
@@ -63,12 +62,10 @@ void MainWindow::updateChat()
     while (true) {
         if (!msgQueue.empty()) {
             auto msg = msgQueue.pop();
-            //std::cout << "kal " << msg.content << " " << msg.name << "\n";
             std::time_t tm = std::chrono::system_clock::to_time_t(msg.time);
             auto time = localtime(&tm);
             ui->textBrowser_chat->append(QString::fromStdString(std::string(msg.name) + " [" + std::to_string(time->tm_hour) + ":" + std::to_string(time->tm_min) + ":" + std::to_string(time->tm_sec) + "]:\n" + std::string(msg.content)));
         }
-        //std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 }
 
